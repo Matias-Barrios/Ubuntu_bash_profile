@@ -77,4 +77,10 @@ starttransfer:  %{time_starttransfer}s\n\
 # Prompt as in GitBash
 export PS1="\[\e[31m\]\u\[\e[m\]\[\e[32m\]@\[\e[m\]\[\e[32m\]\W\[\e[m\] \$( GIT_BRANCH )\n $ "
 
+export GOPATH='/home/matias/go'
+export GOROOT='/usr/local/go'
+export GOBIN='/home/matias/go/bin'
+
+export PATH="$PATH:$GOBIN:$GOROOT"
+
 
