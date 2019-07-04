@@ -1,36 +1,121 @@
-## NORMAL
-export NORMAL=$(tput sgr0)
+# .bash_profile
 
-## FOREGROUND
-export FGBLACK=$(tput setaf 0)
-export FGRED=$(tput setaf 1)
-export FGGREEN=$(tput setaf 2)
-export FGYELLOW=$(tput setaf 3)
-export FGBLUE=$(tput setaf 4)
-export FGMAGENTA=$(tput setaf 5)
-export FGCYAN=$(tput setaf 6)
-export FGWHITE=$(tput setaf 7)
-export FGBRIGHT=$(tput bold)
-export FGNORMAL=$(tput sgr0)
-export FGBOLD=$(tput bold)
+## .bash_profile for Ubuntu
+## Author : Matias Barrios
+## Year : 2017
 
-## BACKGROUND
-export BGBLACK=$(tput setab 0)
-export BGRED=$(tput setab 1)
-export BGGREEN=$(tput setab 2)
-export BGYELLOW=$(tput setab 3)
-export BGBLUE=$(tput setab 4)
-export BGMAGENTA=$(tput setab 5)
-export BGCYAN=$(tput setab 6)
-export BGWHITE=$(tput setab 7)
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
 
-## SHAPE
-export SHUNDERLINE=$(tput smul)
-export SHBOLD=$(tput bold)
-export SHSBOLD=$(tput smso)
+# User specific environment and startup programs
 
+PATH=$PATH:$HOME/.local/bin:$HOME/bin
+export GOPATH='/home/matias/go'
+export GOROOT='/usr/local/go'
+export GOBIN='/home/matias/go/bin'
+export PATH="$PATH:$GOBIN:$GOROOT"
 
-### My functions
+export CLICOLOR=1
+export LSCOLORS='ExFxBxDxCxegedabagacad'
+export GREP_OPTIONS='--color=auto'
+export GREP_COLOR='1;35;40'
+
+alias ls='ls -Gfh'
+alias ll='ls -Gfhla'
+
+LC_ALL='en_US.UTF-8'
+LC_CTYPE='en_US.UTF-8'
+
+function DECLARE_COLORS() {
+	
+	#################################
+	###  Color for terminal
+	#################################
+	## NORMAL
+	export NORMAL=$(tput sgr0)
+	
+	## FOREGROUND
+	export FGBLACK=$(tput setaf 0)
+	export FGRED=$(tput setaf 1)
+	export FGGREEN=$(tput setaf 2)
+	export FGYELLOW=$(tput setaf 3)
+	export FGBLUE=$(tput setaf 4)
+	export FGMAGENTA=$(tput setaf 5)
+	export FGCYAN=$(tput setaf 6)
+	export FGWHITE=$(tput setaf 7)
+	export FGBRIGHT=$(tput bold)
+	export FGNORMAL=$(tput sgr0)
+	export FGBOLD=$(tput bold)
+	
+	## BACKGROUND
+	export BGBLACK=$(tput setab 0)
+	export BGRED=$(tput setab 1)
+	export BGGREEN=$(tput setab 2)
+	export BGYELLOW=$(tput setab 3)
+	export BGBLUE=$(tput setab 4)
+	export BGMAGENTA=$(tput setab 5)
+	export BGCYAN=$(tput setab 6)
+	export BGWHITE=$(tput setab 7)
+	
+	## SHAPE
+	export SHUNDERLINE=$(tput smul)
+	export SHBOLD=$(tput bold)
+	export SHSBOLD=$(tput smso)
+}
+DECLARE_COLORS
+
+function BASIC_HC() {
+	printf "${FGYELLOW}Host : ${NORMAL}${FGGREN}$( hostname )${NORMAL}\n";
+	printf "${FGBLUE}";printf "%.1s" '='{1..50} $'\n' ;printf "${NORMAL}" ;
+	printf "${FGYELLOW}Uptime : ${NORMAL}${FGGREEN}%s${NORMAL}\n" "$( uptime )";
+	printf "${FGBLUE}";printf "%.1s" '='{1..50} $'\n' ;printf "${NORMAL}" ;
+	printf "${FGBLUE}";printf "%.1s" '='{1..50} $'\n' ;printf "${NORMAL}" ;
+        printf "${FGYELLOW}ROFS : \n${NORMAL}${FGGREEN}%s${NORMAL}\n" "$( grep -w ro /proc/mounts )";
+        printf "${FGBLUE}";printf "%.1s" '='{1..50} $'\n' ;printf "${NORMAL}" ;	
+	printf "${FGBLUE}";printf "%.1s" '='{1..50} $'\n' ;printf "${NORMAL}" ;
+        printf "${FGYELLOW}Last Reboot:\n${NORMAL}${FGGREEN}%s${NORMAL}\n" "$( last reboot)";
+        printf "${FGBLUE}";printf "%.1s" '='{1..50} $'\n' ;printf "${NORMAL}" ;	
+	printf "${FGBLUE}";printf "%.1s" '='{1..50} $'\n' ;printf "${NORMAL}" ;
+        printf "${FGYELLOW}Disk Utilization:\n${NORMAL}${FGGREEN}%s${NORMAL}\n" "$( df -h)" ;
+        printf "${FGBLUE}";printf "%.1s" '='{1..50} $'\n' ;printf "${NORMAL}" ;   
+	printf "${FGBLUE}";printf "%.1s" '='{1..50} $'\n' ;printf "${NORMAL}" ;
+        printf "${FGYELLOW}Devices:\n${NORMAL}${FGGREEN}%s${NORMAL}\n" "$(lsscsi)";
+        printf "${FGBLUE}";printf "%.1s" '='{1..50} $'\n' ;printf "${NORMAL}" ;
+	printf "${FGBLUE}";printf "%.1s" '='{1..50} $'\n' ;printf "${NORMAL}" ;
+        printf "${FGYELLOW}lsblk:\n${NORMAL}${FGGREEN}%s${NORMAL}\n" "$(lsblk)";
+        printf "${FGBLUE}";printf "%.1s" '='{1..50} $'\n' ;printf "${NORMAL}" ;
+	printf "${FGBLUE}";printf "%.1s" '='{1..50} $'\n' ;printf "${NORMAL}" ;
+        printf "${FGYELLOW}dmesg (Check manually anyway!):\n${NORMAL}${FGGREEN}%s${NORMAL}\n" "$( dmesg | grep -E -i '(error|I/O|uncorrectable)' )";
+        printf "${FGBLUE}";printf "%.1s" '='{1..50} $'\n' ;printf "${NORMAL}" ;
+}
+
+function SMART-ALL() {
+	[[ $# -eq 0 ]] && { echo "At least one argument is needed"; return 1;}
+	for i in $@;
+	do 
+		echo "----------Device : /dev/sd$i-------------"; 
+		sudo smartctl -x /dev/sd$i | grep -i -E '^Device Model|^Serial Number|^LU WWN Device Id|^Firmware Version|^User Capacity|overall-health' ; 
+		echo  "------------------------------";  
+	done;
+}
+
+function SSSH() {
+	ssh -t $@ "
+		$( declare -f SMART-ALL);  
+		$( declare -f BASIC_HC);
+		$( declare -f DECLARE_COLORS);
+		$( declare -f CHECK_BIGGEST_FOLDERS);
+		$( declare -f CHECK_BIGGEST_FILES);
+        $( declare -f CURL_TIME);
+		DECLARE_COLORS;
+		export -f SMART-ALL BASIC_HC DECLARE_COLORS CURL_TIME; 
+		export -f CHECK_BIGGEST_FOLDERS CHECK_BIGGEST_FILES;
+		PROMPT_COMMAND='export PS1=\"\[\e[37;46m\]\h\[\e[m\]\[\e[37;46m\]@\[\e[m\]\[\e[37;42m\]:\[\e[m\]\[\e[42m\]\W\[\e[m\]\[\e[30;43m\]\\$\[\e[m\]  \"' bash -li; " 
+
+}
+
 
 GIT_BRANCH() {
   branch=$( git branch 2>/dev/null | grep '^*' | colrm 1 2 )
@@ -47,8 +132,8 @@ GIT_PUSH() {
   git add -A . && git commit -m "$branch_name" && git push origin "$branch_name"
 }
 
-curl_time() {
-    curl -vk -w "\n\n\n\
+CURL_TIME() {
+    curl -k -w "\n\n\n\
    namelookup:  %{time_namelookup}s\n\
       connect:  %{time_connect}s\n\
    appconnect:  %{time_appconnect}s\n\
@@ -59,28 +144,25 @@ starttransfer:  %{time_starttransfer}s\n\
         total:  %{time_total}s\n" "$@"
 }
 
-###clear
-#echo "${FGGREEN}**************************************${NORMAL}"
-#echo "${FGGREEN}*                                    *${NORMAL}"
-#echo "${FGGREEN}*${NORMAL}     Bienvenido!!                   ${FGGREEN}*${NORMAL}"
-#echo "${FGGREEN}*${NORMAL}    Este es el servidor             ${FGGREEN}*${NORMAL}"
-#echo "${FGGREEN}*${NORMAL}       de ${FGRED}Matias-Barrios${NORMAL}            ${FGGREEN}*${NORMAL}"
-#echo "${FGGREEN}*${NORMAL}  \"No te olvides de poner el        ${FGGREEN}*${NORMAL}"
-#echo "${FGGREEN}*${NORMAL}      ${FGYELLOW}WHERE${NORMAL} en el ${FGYELLOW}DELETE FROM${NORMAL}\"      ${FGGREEN}*${NORMAL}"
-#echo "${FGGREEN}*${NORMAL}                                    ${FGGREEN}*${NORMAL}"
-#echo "${FGGREEN}*${NORMAL}  Hoy es   ${FGCYAN}$( date +%D  )${NORMAL}                 ${FGGREEN}*${NORMAL}"
-#echo "${FGGREEN}*${NORMAL}                                    ${FGGREEN}*${NORMAL}"
-#echo "${FGGREEN}*${NORMAL}                                    ${FGGREEN}*${NORMAL}"
-#echo "${FGGREEN}**************************************${NORMAL}"
+function CHECK_BIGGEST_FOLDERS() {
+	[[ $# -ne 2 ]] && { printf "You need to pass ${FGCYAN}two${FGNORMAL} arguments.\n${FGYELLOW}1${FGNORMAL} : Starting path, for instance ${FGYELLOW}/var${FGNORMAL}\n${FGYELLOW}2${FGNORMAL} : A number of results you want. For instance ${FGYELLOW}10${FGNORMAL}\n"; return 1;}
+	[[ ! "$2" =~ [1-9][0-9]? ]] && { printf "Your second argument does ${FGRED}not${FGNORMAL} look like a ${FGRED}number${FGNORMAL}.\n" ; return 2; }
+	sudo find "$1" -type d -exec du -sh {} \; | sort -rh | head -"$2"
+}
+
+function CHECK_BIGGEST_FILES() {
+	[[ $# -ne 2 ]] && { printf "You need to pass ${FGCYAN}two${FGNORMAL} arguments.\n${FGYELLOW}1${FGNORMAL} : Starting path, for instance ${FGYELLOW}/var${FGNORMAL}\n${FGYELLOW}2${FGNORMAL} : A number of results you want. For instance ${FGYELLOW}10${FGNORMAL}\n"; return 1;}
+	[[ ! "$2" =~ [1-9][0-9]? ]] && { printf "Your second argument does ${FGRED}not${FGNORMAL} look like a ${FGRED}number${FGNORMAL}.\n" ; return 2; }
+	sudo find "$1" -type f -exec du -sh {} \; | sort -rh | head -"$2"
+}
 
 
 # Prompt as in GitBash
-export PS1="\[\e[31m\]\u\[\e[m\]\[\e[32m\]@\[\e[m\]\[\e[32m\]\W\[\e[m\] \$( GIT_BRANCH )\n $ "
+export PS1="\[\e[34;40m\]\u\[\e[m\]\[\e[33;40m\]@\[\e[m\]\[\e[36m\]\h\[\e[m\] :\[\e[32m\]\W\[\e[m\]  \$( GIT_BRANCH )\n $ "
 
-export GOPATH='/home/matias/go'
-export GOROOT='/usr/local/go'
-export GOBIN='/home/matias/go/bin'
-
-export PATH="$PATH:$GOBIN:$GOROOT"
+if [[ "$( date '+%D' )" != "$(cat ~/.lastrun_bash_profile 2>/dev/null)" ]]
+then
+    # Once a day stuff
+fi
 
 
