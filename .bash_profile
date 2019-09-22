@@ -17,11 +17,6 @@ export GOROOT='/usr/local/go'
 export GOBIN='/home/matias/go/bin'
 export PATH="$PATH:$GOBIN:$GOROOT"
 
-export CLICOLOR=1
-export LSCOLORS='ExFxBxDxCxegedabagacad'
-export GREP_OPTIONS='--color=auto'
-export GREP_COLOR='1;35;40'
-
 alias ls='ls -Gfh'
 alias ll='ls -Gfhla'
 
@@ -112,7 +107,7 @@ function SSSH() {
 		DECLARE_COLORS;
 		export -f SMART-ALL BASIC_HC DECLARE_COLORS CURL_TIME; 
 		export -f CHECK_BIGGEST_FOLDERS CHECK_BIGGEST_FILES;
-		PROMPT_COMMAND='export PS1=\"\[\e[37;46m\]\h\[\e[m\]\[\e[37;46m\]@\[\e[m\]\[\e[37;42m\]:\[\e[m\]\[\e[42m\]\W\[\e[m\]\[\e[30;43m\]\\$\[\e[m\]  \"' bash -li; " 
+		PROMPT_COMMAND='export PS1=\"\[\e[37;46m\]\h\[\e[m\]\[\e[37;46m\]@\[\e[m\]\[\e[37;42m\]:\[\e[m\]\[\e[42m\]\W\[\e[m\]\[\e[30;43m\]\\$\[\e[m\]  \" bash -li; " 
 
 }
 
@@ -162,7 +157,8 @@ export PS1="\[\e[34;40m\]\u\[\e[m\]\[\e[33;40m\]@\[\e[m\]\[\e[36m\]\h\[\e[m\] :\
 
 if [[ "$( date '+%D' )" != "$(cat ~/.lastrun_bash_profile 2>/dev/null)" ]]
 then
-    # Once a day stuff
+        clear
+	# Once a day stuff
 fi
 
 
