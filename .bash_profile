@@ -151,9 +151,15 @@ function CHECK_BIGGEST_FILES() {
 	sudo find "$1" -type f -exec du -sh {} \; | sort -rh | head -"$2"
 }
 
+function statusCode() {
+	[[ $? -eq 0 ]] && printf '\e[0;32m('$?')\e[m'
+	[[ $? -ne 0 ]] && printf '\e[0;31m('$?')\e[m'
+}
+
 
 # Prompt as in GitBash
-export PS1="\[\e[34;40m\]\u\[\e[m\]\[\e[33;40m\]@\[\e[m\]\[\e[36m\]\h\[\e[m\] :\[\e[32m\]\W\[\e[m\]  \$( GIT_BRANCH )\n $ "
+export PS1="\[\e[32m\][\[\e[m\]\[\e[36m\]\W\[\e[m\]\[\e[32m\]]\[\e[m\]\n\$( statusCode ) \[\e[33m\]\$( GIT_BRANCH )\[\e[m\]\[\e[32m\]#>\[\e[m\] "
+
 
 if [[ "$( date '+%D' )" != "$(cat ~/.lastrun_bash_profile 2>/dev/null)" ]]
 then
