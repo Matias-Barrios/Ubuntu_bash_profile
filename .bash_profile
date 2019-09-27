@@ -160,7 +160,7 @@ function statusCode() {
 
 
 # Prompt as in GitBash
-export PS1="\[\e[32m\][\[\e[m\]\[\e[36m\]\w\[\e[m\]\[\e[32m\]]\[\e[m\] \[\e[33m\]\$( GIT_BRANCH ) \[\e[m\]\n\$( statusCode ) \[\e[34m\]\u\[\e[m\] \[\e[32m\]#>\[\e[m\] "
+export PS1="\[\e[32m\][\[\e[m\]\[\e[36m\]\w\[\e[m\]\[\e[32m\]]\[\e[m\]@\[\e[35m\]\h\[\e[m\] \[\e[33m\]\$( GIT_BRANCH ) \[\e[m\]\n\$( statusCode ) \[\e[34m\]\u\[\e[m\] \[\e[32m\]#>\[\e[m\] "
 
 
 if [[ "$( date '+%D' )" != "$(cat ~/.lastrun_bash_profile 2>/dev/null)" ]]
