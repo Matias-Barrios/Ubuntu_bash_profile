@@ -113,8 +113,10 @@ function SSSH() {
 
 
 GIT_BRANCH() {
+  status=$?	
   branch=$( git branch 2>/dev/null | grep '^*' | colrm 1 2 )
   [[ ! -z "$branch" ]] && printf "($branch)" || printf ""
+  return $status
 }
 
 GIT_PUSH() {
@@ -152,13 +154,13 @@ function CHECK_BIGGEST_FILES() {
 }
 
 function statusCode() {
-	[[ $? -eq 0 ]] && printf '\e[0;32m('$?')\e[m'
-	[[ $? -ne 0 ]] && printf '\e[0;31m('$?')\e[m'
+	[[ $? -eq 0 ]] && printf '\001\e[31m\002('$?')\001\e[m\002'
+	[[ $? -ne 0 ]] && printf '\001\e[31m\002('$?')\001\e[m\002'
 }
 
 
 # Prompt as in GitBash
-export PS1="\[\e[32m\][\[\e[m\]\[\e[36m\]\W\[\e[m\]\[\e[32m\]]\[\e[m\]\n\$( statusCode ) \[\e[33m\]\$( GIT_BRANCH )\[\e[m\]\[\e[32m\]#>\[\e[m\] "
+export PS1="\[\e[32m\][\[\e[m\]\[\e[36m\]\w\[\e[m\]\[\e[32m\]]\[\e[m\] \[\e[33m\]\$( GIT_BRANCH ) \[\e[m\]\n\$( statusCode ) \[\e[34m\]\u\[\e[m\] \[\e[32m\]#>\[\e[m\] "
 
 
 if [[ "$( date '+%D' )" != "$(cat ~/.lastrun_bash_profile 2>/dev/null)" ]]
