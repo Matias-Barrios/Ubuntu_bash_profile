@@ -17,7 +17,6 @@ export GOROOT='/usr/local/go'
 export GOBIN='/home/matias/go/bin'
 export PATH="$PATH:$GOBIN:$GOROOT"
 
-alias ls='ls -Gfh'
 alias ll='ls -Gfhla'
 
 LC_ALL='en_US.UTF-8'
