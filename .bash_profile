@@ -10,9 +10,9 @@
 
 PATH=$PATH:$HOME/.local/bin:$HOME/bin
 export GOPATH='/home/matias/go'
-export GOROOT='/usr/local/go/bin'
+export GOROOT='/usr/local/go'
 export GOBIN='/home/matias/go/bin'
-export PATH="$PATH:$GOBIN:$GOROOT"
+export PATH="/usr/local/go/bin:$PATH:$GOBIN:$GOROOT"
 
 alias ll='ls -Gfhla'
 
