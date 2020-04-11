@@ -154,6 +154,11 @@ function statusCode() {
 	[[ $? -ne 0 ]] && printf '\001\e[31m\002('$?')\001\e[m\002'
 }
 
+function SHRINKPDF() {
+	[[ $# -ne 1 ]] && { printf "You need to pass ${FGCYAN}one${FGNORMAL} argument, the path of the input file.\n"; return 1;}
+	local inputfile=$1
+	gs -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -sOutputFile=output.pdf $inputfile
+}
 
 # Prompt as in GitBash
 export PS1="\[\e[32m\][\[\e[m\]\[\e[36m\]\w\[\e[m\]\[\e[32m\]]\[\e[m\]@\[\e[35m\]\h\[\e[m\]\[\e[33m\]\$(GIT_BRANCH)\[\e[m\]\[\e[32m\] #>\[\e[m\] "
