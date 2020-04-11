@@ -83,4 +83,5 @@ export GOBIN='/home/matias/go/bin'
 
 export PATH="$PATH:$GOBIN:$GOROOT"
 
+source ~/.secrets
 
